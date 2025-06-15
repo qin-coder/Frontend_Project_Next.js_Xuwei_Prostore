@@ -1,6 +1,6 @@
 import { neonConfig, PoolConfig } from '@neondatabase/serverless';
 import { PrismaNeon } from '@prisma/adapter-neon';
-import { PrismaClient } from '../lib/generated/prisma';
+import { PrismaClient } from '@/lib/generated/prisma';
 import ws from 'ws';
 
 // 设置 WebSocket 构造函数
