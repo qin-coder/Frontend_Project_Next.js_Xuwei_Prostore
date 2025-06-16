@@ -1,15 +1,15 @@
-import { APP_NAME } from '@/lib/constants';
-import Image from 'next/image';
-import { Metadata } from 'next';
-import Link from 'next/link';
 import {
   Card,
   CardContent,
-  CardHeader,
   CardDescription,
+  CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import CredentialsSignInForm from './credentials-signin-form';
+import { APP_NAME } from '@/lib/constants';
+import { Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
+import CredentialsSigninForm from './credentials-signin-form';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 
@@ -17,51 +17,38 @@ export const metadata: Metadata = {
   title: 'Sign In',
 };
 
-const SignInPage = async (props: {
-  searchParams: Promise<{
-    callbackUrl: string;
-  }>;
-}) => {
+export default async function SignInPage(props: {
+  searchParams: Promise<{ callbackUrl: string }>;
+}) {
   const { callbackUrl } = await props.searchParams;
   const session = await auth();
+
   if (session) {
     return redirect(callbackUrl || '/');
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      {' '}
-      {/* 垂直+水平居中 */}
-      <div className="w-full max-w-md">
-        {' '}
-        {/* 限制宽度 */}
-        <Card className="w-full">
-          {' '}
-          {/* Card 宽度填满父容器 */}
-          <CardHeader className="space-y-4">
-            <Link href="/" className="flex justify-center">
-              {' '}
-              {/* Logo 居中 */}
-              <Image
-                src="/images/logo.svg"
-                width={100}
-                height={100}
-                alt={`${APP_NAME} logo`}
-                priority={true}
-              />
-            </Link>
-            <CardTitle className="text-center">Sign In</CardTitle>
-            <CardDescription className="text-center">
-              Sign in to your account to continue
-            </CardDescription>
-            <CardContent className="space-y-4">
-              <CredentialsSignInForm />
-            </CardContent>
-          </CardHeader>
-        </Card>
-      </div>
+    <div className="w-full max-w-md mx-auto">
+      <Card>
+        <CardHeader className="space-y-4">
+          <Link href="/" className="flex-center">
+            <Image
+              src="/images/logo.svg"
+              alt={`${APP_NAME} Logo`}
+              width={100}
+              height={100}
+              priority={true}
+            />
+          </Link>
+          <CardTitle className="text-center">Sign In</CardTitle>
+          <CardDescription className="text-center">
+            Sign in to your account
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <CredentialsSigninForm />
+        </CardContent>
+      </Card>
     </div>
   );
-};
-
-export default SignInPage;
+}
