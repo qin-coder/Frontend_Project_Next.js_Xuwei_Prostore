@@ -28,7 +28,7 @@ const OrderDetailsTable = ({
   order,
   paypalClientId,
 }: {
-  order: Order;
+  order: Omit<Order, 'paymentResult'>;
   paypalClientId: string;
 }) => {
   const {
@@ -40,8 +40,8 @@ const OrderDetailsTable = ({
     taxPrice,
     totalPrice,
     paymentMethod,
-    isPaid,
     isDelivered,
+    isPaid,
     paidAt,
     deliveredAt,
   } = order;
