@@ -2,6 +2,9 @@ import type { NextConfig } from 'next';
 import type { Configuration } from 'webpack';
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [{ protocol: 'https', hostname: 'utfs.io', port: '' }],
+  },
   webpack: (config: Configuration) => {
     config.watchOptions = {
       ...config.watchOptions,
