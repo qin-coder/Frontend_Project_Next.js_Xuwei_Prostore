@@ -4,8 +4,9 @@ import { revalidatePath } from 'next/cache';
 import { LATEST_PRODUCTS_LIMIT, PAGE_SIZE } from '../constants';
 import { convertToPlainObject, formatError } from '../utils';
 import { prisma } from '@/db/prisma';
+import { z } from 'zod';
 import { insertProductSchema, updateProductSchema } from '../validators';
-import z from 'zod';
+import { Prisma } from '@prisma/client';
 
 export async function getLatestProducts() {
   const data = await prisma.product.findMany({
@@ -34,13 +35,32 @@ export async function getProductById(productId: string) {
 
 // Get all products
 export async function getAllProducts({
+  query,
   limit = PAGE_SIZE,
   page,
+  category,
 }: {
+  query: string;
   limit?: number;
   page: number;
+  category?: string;
 }) {
+  // Query filter
+  const queryFilter: Prisma.ProductWhereInput =
+    query && query !== 'all'
+      ? {
+          name: {
+            contains: query,
+            mode: 'insensitive',
+          } as Prisma.StringFilter,
+        }
+      : {};
+
+  // Category
+  const categoryFilter = category && category !== 'all' ? { category } : {};
+
   const data = await prisma.product.findMany({
+    where: { ...queryFilter, ...categoryFilter },
     skip: (page - 1) * limit,
     take: limit,
   });
