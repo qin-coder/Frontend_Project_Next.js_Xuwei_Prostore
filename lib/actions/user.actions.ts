@@ -1,20 +1,20 @@
 'use server';
 
 import {
-  paymentMethodSchema,
   shippingAddressSchema,
   signInFormSchema,
   signUpFormSchema,
+  paymentMethodSchema,
 } from '../validators';
 import { auth, signIn, signOut } from '@/auth';
 import { isRedirectError } from 'next/dist/client/components/redirect-error';
-import { hashSync } from 'bcrypt-ts-edge';
+import { hash } from '@/lib/encrypt';
 import { prisma } from '@/db/prisma';
-import { formatError } from '@/lib/utils';
+import { formatError } from '../utils';
 import { ShippingAddress } from '@/types';
-import z from 'zod';
-//sign in user with credentials
+import { z } from 'zod';
 
+// Sign in the user with credentials
 export async function signInWithCredentials(
   prevState: unknown,
   formData: FormData
@@ -24,23 +24,24 @@ export async function signInWithCredentials(
       email: formData.get('email'),
       password: formData.get('password'),
     });
+
     await signIn('credentials', user);
-    return { success: true, message: 'Sign in successfully' };
+
+    return { success: true, message: 'Signed in successfully' };
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
     }
-    return {
-      success: false,
-      message: 'Invalid email or password',
-    };
+
+    return { success: false, message: 'Invalid email or password' };
   }
 }
 
-// sign out user
+// Sign user out
 export async function signOutUser() {
   await signOut();
 }
+
 // Sign up user
 export async function signUpUser(prevState: unknown, formData: FormData) {
   try {
@@ -53,7 +54,7 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
 
     const plainPassword = user.password;
 
-    user.password = hashSync(user.password, 10);
+    user.password = await hash(user.password);
 
     await prisma.user.create({
       data: { name: user.name, email: user.email, password: user.password },
@@ -73,12 +74,13 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
     return { success: false, message: formatError(error) };
   }
 }
+
 // Get user by the ID
 export async function getUserById(userId: string) {
-  const user = await prisma.user.findFirst({
-    where: { id: userId },
-  });
+  const user = await prisma.user.findFirst({ where: { id: userId } });
+
   if (!user) throw new Error('User not found');
+
   return user;
 }
 
@@ -93,7 +95,7 @@ export async function updateUserAddress(data: ShippingAddress) {
     if (!currentUser) throw new Error('User not found');
 
     const address = shippingAddressSchema.parse(data);
-    // update the data in database
+
     await prisma.user.update({
       where: { id: currentUser.id },
       data: { address },
