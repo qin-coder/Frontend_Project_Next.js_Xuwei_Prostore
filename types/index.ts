@@ -1,4 +1,3 @@
-import { shippingAddressSchema } from './../lib/validators';
 import { z } from 'zod';
 import {
   insertProductSchema,
@@ -7,6 +6,7 @@ import {
   insertOrderSchema,
   insertOrderItemSchema,
   paymentResultSchema,
+  shippingAddressSchema,
 } from '@/lib/validators';
 
 export type Product = z.infer<typeof insertProductSchema> & {
