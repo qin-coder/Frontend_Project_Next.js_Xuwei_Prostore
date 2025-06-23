@@ -1,4 +1,4 @@
-# 🛒 ProStore - Modern E-commerce Platform
+# 🛒 Xuwei_ProStore - Modern E-commerce Platform
 
 A comprehensive **full-stack e-commerce platform** built with **Next.js 15** and **React 19**. This project is based on Brad Traversy's advanced course and is designed to reflect **real-world production standards**.
 
