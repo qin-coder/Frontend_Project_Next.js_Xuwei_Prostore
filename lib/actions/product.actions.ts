@@ -39,11 +39,17 @@ export async function getAllProducts({
   limit = PAGE_SIZE,
   page,
   category,
+  price,
+  rating,
+  sort,
 }: {
   query: string;
   limit?: number;
   page: number;
   category?: string;
+  price?: string;
+  rating?: string;
+  sort?: string;
 }) {
   // Query filter
   const queryFilter: Prisma.ProductWhereInput =
@@ -59,10 +65,38 @@ export async function getAllProducts({
   // Category
   const categoryFilter = category && category !== 'all' ? { category } : {};
 
+  // Price filter
+  const priceFilter: Prisma.ProductWhereInput =
+    price && price !== 'all'
+      ? {
+          price: {
+            gte: Number(price.split('-')[0]),
+            lte: Number(price.split('-')[1]),
+          },
+        }
+      : {};
+
+  // Rating filter
+  const ratingFilter =
+    rating && rating !== 'all' ? { rating: { gte: Number(rating) } } : {};
+
   const data = await prisma.product.findMany({
-    where: { ...queryFilter, ...categoryFilter },
+    where: {
+      ...queryFilter,
+      ...categoryFilter,
+      ...priceFilter,
+      ...ratingFilter,
+    },
     skip: (page - 1) * limit,
     take: limit,
+    orderBy:
+      sort === 'lowest'
+        ? { price: 'asc' }
+        : sort === 'highest'
+          ? { price: 'desc' }
+          : sort === 'rating'
+            ? { rating: 'desc' }
+            : { createdAt: 'desc' },
   });
 
   const dataCount = await prisma.product.count();
@@ -104,7 +138,7 @@ export async function createProduct(data: z.infer<typeof insertProductSchema>) {
   }
 }
 
-// Update a product
+// Create a product
 export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
   try {
     const product = updateProductSchema.parse(data);
