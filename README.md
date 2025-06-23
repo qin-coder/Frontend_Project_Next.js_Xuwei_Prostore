@@ -109,7 +109,24 @@ RESEND_API_KEY
 
 ```bash
 
-npm prisma generate
+npx prisma generate
 
 ```
+### 5. Run Database Migrations
+
+```bash
+
+npx prisma migrate dev
+
+```
+### 6. Start Development Server
+
+```bash
+
+npm run dev
+
+
+```
+
+
 
