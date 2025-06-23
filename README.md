@@ -1,36 +1,132 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 Xuwei_ProStore - Modern E-commerce Platform
 
-## Getting Started
+A comprehensive **full-stack e-commerce platform** built with **Next.js 15** and **React 19**. This project is based on Brad Traversy's advanced course and is designed to reflect **real-world production standards**.
 
-First, run the development server:
+ProStore integrates cutting-edge tools and libraries to implement features such as **authentication**, **admin dashboards**, **shopping carts**, **payment processing (Stripe & PayPal)**, **real-time updates**, and more.
+
+---
+
+## 🚀 Tech Stack
+
+- **Framework**: Next.js 15.3.3  
+- **Language**: TypeScript  
+- **Database**: PostgreSQL with Prisma ORM (Neon Database)  
+- **Authentication**: NextAuth.js (JWT, sessions, cookies)  
+- **Styling**: Tailwind CSS 4 + tailwindcss-animate  
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com) + Radix UI + Lucide Icons  
+- **Forms**: React Hook Form + Zod Validation  
+- **Email**: React Email with Resend  
+- **File Upload**: UploadThing  
+- **Payments**: Stripe & PayPal  
+- **Data Visualization**: Recharts  
+- **Carousel**: Embla Carousel  
+- **Testing**: Jest + ts-jest  
+- **State Management**: React Hooks  
+- **Build Tools**: Webpack 5, ESLint, PostCSS, dotenv  
+
+---
+
+## ✨ Features
+
+- ✅ User Authentication & Authorization (JWT / Session)
+- 🛍️ Product Catalog with Category Filtering
+- 🧺 Dynamic Shopping Cart
+- 💳 Secure Payments with **Stripe** and **PayPal**
+- 🧾 Order Management (User & Admin)
+- 🔔 Email Notifications via **Resend**
+- 🛠️ Admin Dashboard (Products, Orders, Users)
+- 📤 File Upload for Product Images
+- 📝 Review and Rating System
+- 🎨 Dark Mode with **next-themes**
+- 🔄 Real-time Updates
+- 📈 Charts with Recharts
+- 🧪 Unit Testing with **Jest**
+
+---
+
+## 📚 What's Included in This Project
+
+- Built with **Next.js 15.3.3** and **React 19**
+- Admin panel with product/user/order management
+- Fully functional **shopping cart** and **checkout flow**
+- Integrated **Stripe** and **PayPal** for secure payments
+- Full **TypeScript** support and **Zod** schema validation
+- **Prisma ORM** with **PostgreSQL** and Neon serverless support
+- Authentication with **NextAuth.js** using JWT and cookies
+- File uploads via **UploadThing**
+- Dynamic UI built using **shadcn/ui**, **Radix UI**, and **Tailwind CSS**
+- Email sending with **React Email** and **Resend**
+- Real-time updates and modern UI interactions
+- Testing using **Jest** and **ts-jest**
+
+---
+
+## 📦 Getting Started
+
+### 1. Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+https://github.com/qin-coder/Frontend_Project_Next.js_Xuwei_Prostore.git
+
+cd prostore
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+# or
+yarn install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
 
-## Learn More
+### 3. Set Up Environment Variables
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+#Copy the example environment file and fill in the required keys:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+cp .env.example .env
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Environment variables you'll need include:
 
-## Deploy on Vercel
+DATABASE_URL
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+NEXTAUTH_SECRET
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+NEXTAUTH_URL
+
+STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
+
+PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET
+
+RESEND_API_KEY
+
+
+```
+
+### 4. Generate Prisma Client
+
+```bash
+
+npx prisma generate
+
+```
+### 5. Run Database Migrations
+
+```bash
+
+npx prisma migrate dev
+
+```
+### 6. Start Development Server
+
+```bash
+
+npm run dev
+
+
+```
+
+
+
