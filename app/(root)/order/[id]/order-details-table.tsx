@@ -29,7 +29,8 @@ import Link from 'next/link';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
 import StripePayment from './stripe-payment';
-export function OrderDetailsTable({
+
+export default function OrderDetailsTable({
   order,
   paypalClientId,
   isAdmin,
@@ -79,7 +80,7 @@ export function OrderDetailsTable({
     if (res.success) toast.success(res.message);
     else toast.error(res.message);
   };
-  console.log('paymentMethod:', order.paymentMethod);
+
   // Button to mark order as paid
   const MarkAsPaidButton = () => {
     const [isPending, startTransition] = useTransition();
@@ -240,7 +241,6 @@ export function OrderDetailsTable({
                   clientSecret={stripeClientSecret}
                 />
               )}
-
               {/* Cash On Delivery */}
               {isAdmin && !isPaid && paymentMethod === 'CashOnDelivery' && (
                 <MarkAsPaidButton />
@@ -253,5 +253,3 @@ export function OrderDetailsTable({
     </>
   );
 }
-
-export default OrderDetailsTable;
