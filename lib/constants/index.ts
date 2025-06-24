@@ -4,7 +4,7 @@ export const APP_DESCRIPTION =
   ' Prostore is a modern, open-source e-commerce platform built with Next.js and TypeScript.';
 export const APP_COPYRIGHT = `© ${new Date().getFullYear()} Prostore. All rights reserved.`;
 export const APP_AUTHOR = 'Xuwei Qin';
-export const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+export const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || '';
 export const LATEST_PRODUCTS_LIMIT =
   Number(process.env.LATEST_PRODUCTS_LIMIT) || 4;
 
