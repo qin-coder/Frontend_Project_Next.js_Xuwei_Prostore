@@ -11,17 +11,17 @@ export async function POST(req: NextRequest) {
   );
 
   // Check for successful payment
-  if (event.type === 'charge.succeeded') {
-    const { object } = event.data;
+  if (event.type === 'payment_intent.succeeded') {
+    const intent = event.data.object as Stripe.PaymentIntent;
 
     // Update order status
     await updateOrderToPaid({
-      orderId: object.metadata.orderId,
+      orderId: intent.metadata.orderId,
       paymentResult: {
-        id: object.id,
+        id: intent.id,
         status: 'COMPLETED',
-        email_address: object.billing_details.email!,
-        pricePaid: (object.amount / 100).toFixed(),
+        email_address: intent.receipt_email ?? '',
+        pricePaid: (intent.amount / 100).toFixed(),
       },
     });
 
